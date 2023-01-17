@@ -10,7 +10,6 @@ import com.spring.projectboard.repository.ArticleRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -55,14 +54,14 @@ class ArticleServiceTest {
         SearchType searchType = SearchType.TITLE;
         String searchKeyword = "title";
         Pageable pageable = Pageable.ofSize(20);
-        given(articleRepository.findByTitle(searchKeyword, pageable)).willReturn(Page.empty());
+        given(articleRepository.findByTitleContaining(searchKeyword, pageable)).willReturn(Page.empty());
 
         //when
         Page<ArticleDto> articles = sut.searchArticles(searchType, searchKeyword, pageable);
 
         //then
         assertThat(articles).isEmpty();
-        then(articleRepository).should().findByTitle(searchKeyword, pageable);
+        then(articleRepository).should().findByTitleContaining(searchKeyword, pageable);
     }
 
     @DisplayName("게시글을 조회하면, 게시글을 반환한다.")
@@ -151,13 +150,14 @@ class ArticleServiceTest {
     @Test
     void given_when_then() {
         //given
-        willDoNothing().given(articleRepository).delete(any(Article.class));
+        Long articleId = 1L;
+        willDoNothing().given(articleRepository).deleteById(articleId);
 
         //when
         sut.deleteArticle(1L);
 
         //then
-        then(articleRepository).should().delete(any(Article.class));
+        then(articleRepository).should().deleteById(articleId);
     }
 
     private UserAccount createUserAccount() {
@@ -198,15 +198,15 @@ class ArticleServiceTest {
     private UserAccountDto createUserAccountDto() {
         return UserAccountDto.of(
                 1L,
-                "uno",
+                "moon",
                 "password",
-                "uno@mail.com",
-                "Uno",
+                "moon@mail.com",
+                "moon",
                 "This is memo",
                 LocalDateTime.now(),
-                "uno",
+                "moon",
                 LocalDateTime.now(),
-                "uno"
+                "moon"
         );
     }
 }
