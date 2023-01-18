@@ -48,10 +48,10 @@ public class JpaRepositoryTest {
 
     @DisplayName("insert 테스트")
     @Test
-    void given_when_then() {
+    void givenTestData_whenInserting_thenWorksFine() {
         //given
         long previousCount = articleRepository.count();
-        UserAccount userAccount = userAccountRepository.save(UserAccount.of("moon", "pw", null, null, null));
+        UserAccount userAccount = userAccountRepository.save(UserAccount.of("new moon", "pw", null, null, null));
         Article article = Article.of(userAccount, "new article", "new content", "#spring");
 
         //when
