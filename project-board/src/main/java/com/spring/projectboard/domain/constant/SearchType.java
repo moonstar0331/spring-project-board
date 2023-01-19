@@ -1,4 +1,4 @@
-package com.spring.projectboard.domain.type;
+package com.spring.projectboard.domain.constant;
 
 import lombok.Getter;
 
